@@ -14,6 +14,20 @@ const paths = {
 
 module.exports = {
   mode: process.env.NODE_ENV,
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name(module) {
+            const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+            return packageName.replace('@', '');
+          },
+        }
+      }
+    }
+  },
   externals: {
     paths: paths
   },
@@ -21,7 +35,8 @@ module.exports = {
     app: paths.src
   },
   output: {
-    filename: `${paths.assets}js/[name].bundle.js`,
+    filename: `${paths.assets}js/[name].js`,
+    chunkFilename: `${paths.assets}js/[name].bundle.js`,
     path: paths.dist,
     publicPath: '/'
   },
@@ -67,6 +82,7 @@ module.exports = {
       $: 'jquery',
       jQuery: 'jquery'
     }),
+    new webpack.HashedModuleIdsPlugin(),
     new CopyWebpackPlugin([
       { from: `${paths.src}/img`, to: `${paths.assets}img` }
     ]),
@@ -77,7 +93,7 @@ module.exports = {
       filename: './index.html'
     }),
     new MiniCssExtractPlugin({
-      filename: `${paths.assets}css/[name].bundle.css`,
+      filename: `${paths.assets}css/[name].css`,
     })
   ]
 }

@@ -1,5 +1,5 @@
-import './js/common';
-import $ from 'jquery';
+import './js/main';
+import 'jquery';
 import './scss/main.scss';
 
 if (process.env.NODE_ENV !== 'production') {
