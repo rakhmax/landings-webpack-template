@@ -4,39 +4,32 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const devMode = process.env.NODE_ENV !== 'production'
+const isDevMode = process.env.NODE_ENV !== 'production'
+
+console.log(process.env.NODE_ENV)
 
 const paths = {
-  src: path.join(__dirname, './src'),
-  dist: path.join(__dirname, './dist'),
+  src: path.join(__dirname, 'src'),
+  dist: path.join(__dirname, 'dist'),
   assets: 'assets/'
 }
 
 module.exports = {
   mode: process.env.NODE_ENV,
+  entry: {
+    app: paths.src
+  },
   optimization: {
     splitChunks: {
-      chunks: 'all',
-      cacheGroups: {
-        vendor: {
-          test: /[\\/]node_modules[\\/]/,
-          name(module) {
-            const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
-            return packageName.replace('@', '');
-          },
-        }
-      }
+      chunks: 'all'
     }
   },
   externals: {
     paths: paths
   },
-  entry: {
-    app: paths.src
-  },
   output: {
     filename: `${paths.assets}js/[name].js`,
-    chunkFilename: `${paths.assets}js/[name].bundle.js`,
+    // chunkFilename: `${paths.assets}js/[name].bundle.js,
     path: paths.dist,
     publicPath: '/'
   },
@@ -48,7 +41,7 @@ module.exports = {
         exclude: '/node_modules/'
       },
       {
-        test: /\.(png|jpg|svg|gif|ico)$/,
+        test: /\.(png|jpg|svg|gif)$/,
         loader: 'file-loader',
         options: {
           name: '[name].[ext]'
@@ -57,7 +50,7 @@ module.exports = {
       {
         test: /\.scss$/,
         use: [
-          devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
+          isDevMode ? 'style-loader' : MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
             options: { sourceMap: true }
@@ -66,7 +59,7 @@ module.exports = {
             loader: 'postcss-loader',
             options: {
               sourceMap: true,
-              config: { path: `${paths.src}/configs/postcss.config.js`}
+              config: { path: `${paths.src}/configs/postcss.config.js` }
             }
           },
           {

@@ -2,6 +2,12 @@
 @import './utils/libs';
 @import './utils/mixins';
 @import './utils/vars';
+@import '~wowjs/css/libs/animate.css';
+
+.container {
+  max-width: 1200px;
+  width: 100%;
+}
 
 .wrapper {
   text-align: center;

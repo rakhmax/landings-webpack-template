@@ -1,1 +1,3 @@
-console.log($('body'));
+import WOW from 'wow.js'
+
+new WOW().init();
