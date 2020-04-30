@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "bootstrap": "^4.3.1",
-    "jquery": "^3.3.1",
+    "jquery": "^3.5.0",
     "popper.js": "^1.15.0",
     "typescript": "^3.4.2",
     "wow.js": "^1.2.2",
